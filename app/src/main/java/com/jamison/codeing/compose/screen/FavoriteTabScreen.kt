@@ -27,19 +27,7 @@ private const val imageUrl =
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoriteTabScreen() {
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(text = "Favorite", color = Color.White, fontSize = 18.sp)
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = StatusBar
-                ),
-            )
-
-        },
-    ) { innerPadding ->
+    Scaffold{ innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()

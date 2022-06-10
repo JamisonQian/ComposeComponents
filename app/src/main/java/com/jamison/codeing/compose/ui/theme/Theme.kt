@@ -56,7 +56,7 @@ fun ComposeComponentsTheme(
     }
     val systemUiController =rememberSystemUiController()
     SideEffect {
-        systemUiController.setStatusBarColor(StatusBar, false)
+        systemUiController.setStatusBarColor(Color.Transparent, false)
     }
 
     MaterialTheme(

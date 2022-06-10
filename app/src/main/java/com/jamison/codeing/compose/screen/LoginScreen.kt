@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.jamison.codeing.compose.ui.theme.StatusBar
 import com.jamison.codeing.compose.ui.theme.toastColor
+import com.jamison.codeing.compose.widget.AppTopBar
 
 /**
  * @FileName LoginScreen
@@ -27,7 +28,7 @@ import com.jamison.codeing.compose.ui.theme.toastColor
 fun LoginScreen(navController: NavController) {
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(title = {
+            AppTopBar(title = {
                 Text(text = "登录", color = Color.White, fontSize = 18.sp)
             },
                 navigationIcon = {
@@ -37,9 +38,7 @@ fun LoginScreen(navController: NavController) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription =null , tint = Color.White)
                     }
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = StatusBar
-                )
+                backgroundColor = StatusBar
             )
 
         }

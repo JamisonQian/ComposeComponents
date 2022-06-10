@@ -58,6 +58,7 @@ fun HomeScreen(navController: NavHostController) {
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
     Scaffold(
+        modifier = Modifier.navigationBarsPadding(),
         bottomBar = {
             BottomNavigation(backgroundColor = Color.White) {
                 items.forEachIndexed() { index, screen ->
@@ -75,14 +76,14 @@ fun HomeScreen(navController: NavHostController) {
                             Icon(
                                 imageVector = screen.imageVector,
                                 contentDescription = null,
-                                tint = if (isSelected) Color.Green else Color.Gray
+                                tint = if (isSelected) StatusBar else Color.Gray
                             )
                         },
                         label = {
                             Text(
                                 text = screen.route,
                                 fontSize = 12.sp,
-                                color = if (isSelected) Color.Green else Color.Gray
+                                color = if (isSelected) StatusBar else Color.Gray
                             )
                         }
                     )

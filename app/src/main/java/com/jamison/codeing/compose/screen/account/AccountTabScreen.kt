@@ -19,6 +19,7 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jamison.codeing.compose.navgrap.Routers
 import com.jamison.codeing.compose.ui.theme.StatusBar
+import com.jamison.codeing.compose.widget.AppTopBar
 
 /**
  * @FileName AccountTabScreen
@@ -32,13 +33,11 @@ import com.jamison.codeing.compose.ui.theme.StatusBar
 fun AccountTabScreen(viewModel:AccountViewModel = viewModel(),navController: NavHostController) {
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
+            AppTopBar(
                 title = {
                     Text(text = "Account", color = Color.White, fontSize = 18.sp)
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = StatusBar
-                ),
+                backgroundColor = StatusBar,
             )
 
         },

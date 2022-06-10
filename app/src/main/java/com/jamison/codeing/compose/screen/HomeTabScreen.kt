@@ -1,6 +1,7 @@
 package com.jamison.codeing.compose.screen
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -14,6 +15,7 @@ import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.statusBarsHeight
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jamison.codeing.compose.ui.theme.StatusBar
+import com.jamison.codeing.compose.widget.AppTopBar
 
 /**
  * @FileName HomeTabScreen
@@ -26,20 +28,19 @@ import com.jamison.codeing.compose.ui.theme.StatusBar
 @Composable
 fun HomeTabScreen() {
 
-    val paddingValues = WindowInsets.statusBars.only(WindowInsetsSides.Horizontal+ WindowInsetsSides.Top).asPaddingValues()
+    val paddingValues =
+        WindowInsets.statusBars.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
+            .asPaddingValues()
 
     Log.d("TAG", paddingValues.toString())
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
+            AppTopBar(
                 title = {
                     Text(text = "主页", color = Color.White, fontSize = 18.sp)
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = StatusBar
-                ),
+                backgroundColor = StatusBar,
             )
-
         },
     ) { innerPadding ->
         Box(
