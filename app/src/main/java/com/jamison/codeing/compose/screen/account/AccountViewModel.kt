@@ -1,8 +1,8 @@
 package com.jamison.codeing.compose.screen.account
 
-import android.util.Log
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.lifecycle.ViewModel
+import com.jamison.codeing.compose.navgrap.Routers
 
 /**
  * @FileName AccountViewModel
@@ -13,11 +13,18 @@ import androidx.lifecycle.ViewModel
  */
 class AccountViewModel :ViewModel(){
 
-    val lazyListState = LazyListState()
 
-    val list = (0..100).toList()
+    val list = mutableListOf(
+        WidgetModel("Input",Routers.INPUT_ROUTE),
+        WidgetModel("Button",Routers.Button_ROUTE),
+        WidgetModel("Grid",Routers.GRID_ROUTE),
+        WidgetModel("TopTabBar",Routers.TOP_TAB_ROUTE),
+        WidgetModel("StickHeader",Routers.STICK_HEADER_ROUTE),
+    )
 
-    init {
-        Log.d("TAG","AccountViewModel")
-    }
 }
+
+data class WidgetModel(
+    val name:String,
+    val route:String
+)

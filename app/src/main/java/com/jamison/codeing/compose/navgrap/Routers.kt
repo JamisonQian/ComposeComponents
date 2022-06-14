@@ -11,4 +11,9 @@ object Routers {
 
     const val HOME_ROUTE = "home"
     const val LOGIN_ROUTE = "login"
+    const val INPUT_ROUTE = "input"
+    const val Button_ROUTE = "button"
+    const val GRID_ROUTE = "grid"
+    const val TOP_TAB_ROUTE = "topTab"
+    const val STICK_HEADER_ROUTE = "stickHeader"
 }

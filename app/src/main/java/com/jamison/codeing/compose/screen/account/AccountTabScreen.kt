@@ -1,6 +1,7 @@
 package com.jamison.codeing.compose.screen.account
 
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +19,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jamison.codeing.compose.navgrap.Routers
+import com.jamison.codeing.compose.ui.theme.DividerColor
 import com.jamison.codeing.compose.ui.theme.StatusBar
 import com.jamison.codeing.compose.widget.AppTopBar
 
@@ -30,7 +32,7 @@ import com.jamison.codeing.compose.widget.AppTopBar
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AccountTabScreen(viewModel:AccountViewModel = viewModel(),navController: NavHostController) {
+fun AccountTabScreen(viewModel: AccountViewModel = viewModel(), navController: NavHostController) {
     Scaffold(
         topBar = {
             AppTopBar(
@@ -42,21 +44,27 @@ fun AccountTabScreen(viewModel:AccountViewModel = viewModel(),navController: Nav
 
         },
     ) { innerPadding ->
-        LazyColumn(modifier = Modifier
-            .fillMaxWidth()
-            .padding(innerPadding)) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(innerPadding)
+        ) {
             viewModel.list.forEach {
                 item {
-                    Text(text = "Item:$it", modifier = Modifier
-                        .height(50.dp)
-                        .clickable {
-                            navController.navigate(Routers.LOGIN_ROUTE)
-                        }, textAlign = TextAlign.Center)
+                    Text(text = it.name,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                navController.navigate(it.route)
+                            }
+                            .padding(vertical = 20.dp),
+                        textAlign = TextAlign.Center
+                    )
+                    Divider(modifier = Modifier.height(1.dp).fillMaxWidth(), color = DividerColor)
                 }
             }
         }
     }
-
 
 
 }

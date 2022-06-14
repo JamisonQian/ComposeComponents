@@ -17,4 +17,7 @@ import androidx.compose.ui.graphics.Color
 val ColorScheme.toastColor:Color
     get() = Color.Red
 
+val ColorScheme.buttonColor:Color
+    get() = ButtonColor
+
 
