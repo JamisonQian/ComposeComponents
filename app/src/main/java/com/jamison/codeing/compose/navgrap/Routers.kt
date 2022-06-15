@@ -16,4 +16,6 @@ object Routers {
     const val GRID_ROUTE = "grid"
     const val TOP_TAB_ROUTE = "topTab"
     const val STICK_HEADER_ROUTE = "stickHeader"
+    const val NAVIGATION_DRAWER_ROUTE = "navigationDrawer"
+    const val BOTTOM_SHEET_ROUTE = "bottomSheet"
 }

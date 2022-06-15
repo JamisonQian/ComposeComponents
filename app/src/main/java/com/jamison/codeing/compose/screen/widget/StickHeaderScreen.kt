@@ -52,8 +52,7 @@ fun StickHeaderScreen(navController: NavController) {
                 },
                 backgroundColor = StatusBar
             )
-
-        }
+        },
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier

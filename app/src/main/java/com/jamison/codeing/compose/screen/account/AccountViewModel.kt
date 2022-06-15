@@ -20,6 +20,8 @@ class AccountViewModel :ViewModel(){
         WidgetModel("Grid",Routers.GRID_ROUTE),
         WidgetModel("TopTabBar",Routers.TOP_TAB_ROUTE),
         WidgetModel("StickHeader",Routers.STICK_HEADER_ROUTE),
+        WidgetModel("NavigationDrawer",Routers.NAVIGATION_DRAWER_ROUTE),
+        WidgetModel("BottomSheet",Routers.BOTTOM_SHEET_ROUTE),
     )
 
 }

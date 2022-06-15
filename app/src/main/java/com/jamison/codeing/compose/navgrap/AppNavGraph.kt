@@ -69,5 +69,11 @@ fun AppNavGraph() {
         composable(Routers.STICK_HEADER_ROUTE){
             StickHeaderScreen(navController = controller)
         }
+        composable(Routers.NAVIGATION_DRAWER_ROUTE){
+            NavigationDrawerScreen(navController = controller)
+        }
+        composable(Routers.BOTTOM_SHEET_ROUTE){
+            BottomSheetScreen(navController = controller)
+        }
     }
 }

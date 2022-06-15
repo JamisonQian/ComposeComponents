@@ -23,4 +23,9 @@ class ImagesViewModel :ViewModel(){
         add("https://pic3.zhimg.com/v2-77bbb941f260b90f0193ef73d3f2b9e4_1440w.jpg?source=172ae18b")
         add("https://wallpaperm.cmcm.com/ec29df3f120f648b2793066f68c2363d.jpg")
     }
+
+    val banners = arrayListOf<String>().apply {
+        add("https://www.wanandroid.com/blogimgs/42da12d8-de56-4439-b40c-eab66c227a4b.png")
+        add("https://www.wanandroid.com/blogimgs/62c1bd68-b5f3-4a3c-a649-7ca8c7dfabe6.png")
+    }
 }

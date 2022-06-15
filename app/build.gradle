@@ -78,9 +78,17 @@ dependencies {
     //viewPager
 
     implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
     
     //Coil
     implementation "io.coil-kt:coil-compose:2.1.0"
+
+    //Android Utils
+    implementation 'com.blankj:utilcodex:1.31.0'
+
+    implementation "androidx.appcompat:appcompat:1.4.2"
+
+
 
 
 }
