@@ -18,4 +18,5 @@ object Routers {
     const val STICK_HEADER_ROUTE = "stickHeader"
     const val NAVIGATION_DRAWER_ROUTE = "navigationDrawer"
     const val BOTTOM_SHEET_ROUTE = "bottomSheet"
+    const val INSTAGRAM_ROUTE = "instagram"
 }

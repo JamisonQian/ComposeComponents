@@ -75,5 +75,8 @@ fun AppNavGraph() {
         composable(Routers.BOTTOM_SHEET_ROUTE){
             BottomSheetScreen(navController = controller)
         }
+        composable(Routers.INSTAGRAM_ROUTE){
+            InstagramScreen(navController = controller)
+        }
     }
 }

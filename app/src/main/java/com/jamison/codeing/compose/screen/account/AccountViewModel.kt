@@ -14,6 +14,8 @@ import com.jamison.codeing.compose.navgrap.Routers
 class AccountViewModel :ViewModel(){
 
 
+
+
     val list = mutableListOf(
         WidgetModel("Input",Routers.INPUT_ROUTE),
         WidgetModel("Button",Routers.Button_ROUTE),
@@ -22,6 +24,7 @@ class AccountViewModel :ViewModel(){
         WidgetModel("StickHeader",Routers.STICK_HEADER_ROUTE),
         WidgetModel("NavigationDrawer",Routers.NAVIGATION_DRAWER_ROUTE),
         WidgetModel("BottomSheet",Routers.BOTTOM_SHEET_ROUTE),
+        WidgetModel("Instagram UI",Routers.INSTAGRAM_ROUTE),
     )
 
 }
