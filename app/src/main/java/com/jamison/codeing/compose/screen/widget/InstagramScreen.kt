@@ -90,6 +90,7 @@ fun InstagramScreen(navController: NavController) {
             modifier = Modifier
                 .padding(it),
             header = {
+                //这里的布局必须支持滑动
                 ProfileSection(modifier = Modifier.verticalScroll(rememberScrollState()))
             },
             content = {
