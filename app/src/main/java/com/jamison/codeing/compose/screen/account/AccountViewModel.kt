@@ -25,6 +25,7 @@ class AccountViewModel :ViewModel(){
         WidgetModel("NavigationDrawer",Routers.NAVIGATION_DRAWER_ROUTE),
         WidgetModel("BottomSheet",Routers.BOTTOM_SHEET_ROUTE),
         WidgetModel("Instagram UI",Routers.INSTAGRAM_ROUTE),
+        WidgetModel("ScrollBehaviorTopBar",Routers.SCROLL_BEHAVIOR_TOP_BAR_ROUTE),
     )
 
 }

@@ -2,35 +2,29 @@
 
 package com.jamison.codeing.compose.screen.widget
 
-import android.util.Log
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollDispatcher
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -45,7 +39,8 @@ import com.jamison.codeing.compose.ui.theme.DividerColor
 import com.jamison.codeing.compose.ui.theme.Gray500
 import com.jamison.codeing.compose.ui.theme.StatusBar
 import com.jamison.codeing.compose.widget.AppTopBar
-import kotlinx.coroutines.CoroutineScope
+import com.jamison.codeing.compose.widget.scroll.NestedStickScrollView
+import com.jamison.codeing.compose.widget.scroll.rememberNestedScrollViewState
 import kotlinx.coroutines.launch
 
 /**
@@ -56,7 +51,7 @@ import kotlinx.coroutines.launch
  * @Version
  */
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InstagramScreen(navController: NavController) {
 
@@ -65,8 +60,6 @@ fun InstagramScreen(navController: NavController) {
         TabItem(R.drawable.ic_igtv, "IGTV"),
         TabItem(R.drawable.ic_mention, "Mention")
     )
-    val pagerState = rememberPagerState()
-    val scope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             AppTopBar(
@@ -89,63 +82,36 @@ fun InstagramScreen(navController: NavController) {
 
         }
     ) {
-        BoxWithConstraints(
+
+        val nestedScrollViewState = rememberNestedScrollViewState()
+        val pagerState = rememberPagerState()
+        NestedStickScrollView(
+            state = nestedScrollViewState,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
-        ) {
-            val screenHeight = maxHeight
-            val scrollState = rememberScrollState()
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(state = scrollState)
-            ) {
-
-                ProfileSection()
-                Column(modifier = Modifier.height(screenHeight)) {
-                    TabView(tabs = tabs, pagerState, scope)
-                    val nestedScrollConnection = remember {
-                        object : NestedScrollConnection {
-                            override fun onPreScroll(
-                                available: Offset,
-                                source: NestedScrollSource
-                            ): Offset {
-
-                                return takeIf {available.y > 0 && source == NestedScrollSource.Drag}?.let {
-                                    Offset(
-                                    x = 0f,
-                                    y = -scrollState.dispatchRawDelta(-available.y)
-                                )
-                                }?: Offset.Zero
-//                                return if (available.y > 0) Offset.Zero else Offset(
-//                                    x = 0f,
-//                                    y = -scrollState.dispatchRawDelta(-available.y)
-//                                )
-                            }
-                        }
-                    }
-                    val nestedScrollDispatcher = remember { NestedScrollDispatcher() }
-                    HorizontalPager(
-                        state = pagerState,
-                        count = tabs.size,
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .nestedScroll(nestedScrollConnection, nestedScrollDispatcher)
-                    ) {page->
-                        ListDataContent(size =50 , title = tabs[page].title)
+                .padding(it),
+            header = {
+                ProfileSection(modifier = Modifier.verticalScroll(rememberScrollState()))
+            },
+            content = {
+                Column {
+                    TabView(tabs = tabs,pagerState)
+                    HorizontalPager(count = tabs.size, state = pagerState) {page->
+                        ListDataContent(size = 50, title = tabs[page].title)
                     }
                 }
             }
-        }
+        )
     }
 }
 
 
 @Composable
-fun TabView(tabs: List<TabItem>, pagerState: PagerState, scope: CoroutineScope) {
+fun TabView(tabs: List<TabItem>,pagerState: PagerState) {
     val inactiveColor = Gray500
     val activeColor = Blue500
+
+    val scope = rememberCoroutineScope()
+
     androidx.compose.material.TabRow(
         modifier = Modifier
             .fillMaxWidth()
@@ -161,7 +127,7 @@ fun TabView(tabs: List<TabItem>, pagerState: PagerState, scope: CoroutineScope) 
         },
         indicator = { tabPositions ->
             TabRowDefaults.Indicator(
-                modifier = Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
+                modifier = Modifier.pagerTabIndicatorOffset(pagerState,tabPositions),
                 color = activeColor
 
             )
@@ -171,7 +137,9 @@ fun TabView(tabs: List<TabItem>, pagerState: PagerState, scope: CoroutineScope) 
             val isSelected = pagerState.currentPage == index
             Tab(selected = isSelected,
                 onClick = {
-                    scope.launch { pagerState.animateScrollToPage(index) }
+                    scope.launch {
+                        pagerState.animateScrollToPage(index)
+                    }
                 }) {
                 Icon(
                     painter = painterResource(id = tabItem.icon),
@@ -191,7 +159,8 @@ fun TabView(tabs: List<TabItem>, pagerState: PagerState, scope: CoroutineScope) 
 private fun ProfileSection(modifier: Modifier = Modifier) {
     val viewModel: ImagesViewModel = viewModel()
     Surface(color = Color.White) {
-        Column(modifier = modifier.fillMaxWidth()) {
+        Column(modifier = modifier
+            .fillMaxWidth()) {
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 modifier = Modifier
@@ -342,8 +311,8 @@ private fun ProfileDescription(
 }
 
 @Composable
-private fun ListDataContent(size: Int,title:String) {
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
+private fun ListDataContent(size: Int, title: String,modifier: Modifier=Modifier) {
+    LazyColumn(modifier = modifier.fillMaxSize()) {
         items(size) { index ->
             Text(
                 text = "$title Data Item: $index",

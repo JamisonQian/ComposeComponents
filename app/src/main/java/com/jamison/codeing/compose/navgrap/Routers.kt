@@ -19,4 +19,5 @@ object Routers {
     const val NAVIGATION_DRAWER_ROUTE = "navigationDrawer"
     const val BOTTOM_SHEET_ROUTE = "bottomSheet"
     const val INSTAGRAM_ROUTE = "instagram"
+    const val SCROLL_BEHAVIOR_TOP_BAR_ROUTE = "scrollBehaviorTopBar"
 }
