@@ -28,11 +28,7 @@ import com.jamison.codeing.compose.widget.AppTopBar
 @Composable
 fun HomeTabScreen() {
 
-    val paddingValues =
-        WindowInsets.statusBars.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
-            .asPaddingValues()
 
-    Log.d("TAG", paddingValues.toString())
     Scaffold(
         topBar = {
             AppTopBar(
@@ -46,7 +42,9 @@ fun HomeTabScreen() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding), contentAlignment = Alignment.Center
+                .padding(innerPadding)
+            ,
+            contentAlignment = Alignment.Center
         ) {
             Text(text = "Home")
         }

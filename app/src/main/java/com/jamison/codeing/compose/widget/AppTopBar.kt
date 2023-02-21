@@ -2,10 +2,7 @@ package com.jamison.codeing.compose.widget
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.TopAppBarColors
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,6 +14,7 @@ import androidx.compose.ui.graphics.Color
  * @Date 2022/6/10 15:39
  * @Version
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppTopBar(
     title: @Composable () -> Unit,
@@ -47,8 +45,8 @@ fun AppTopBar(
                 containerColor = backgroundColor
             ),
             scrollBehavior = scrollBehavior,
-
-            )
+            windowInsets = WindowInsets.systemBars.only(WindowInsetsSides.Horizontal)
+        )
     }
 
 }

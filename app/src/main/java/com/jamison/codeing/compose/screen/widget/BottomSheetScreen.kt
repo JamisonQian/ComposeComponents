@@ -64,6 +64,7 @@ fun BottomSheetScreen(navController: NavController) {
                 .padding(innerPadding)
         ) {
             ModalBottomSheetSample()
+//            BottomSheetScaffoldSample()
         }
     }
 }
@@ -71,8 +72,10 @@ fun BottomSheetScreen(navController: NavController) {
 
 @Composable
 fun ModalBottomSheetSample() {
+
     val state = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
+    //bottom sheet 内容元素如果过少的情况下 是不可以拖动 如果数据量多则可以拖动
     ModalBottomSheetLayout(
         sheetState = state,
         sheetContent = {
@@ -105,6 +108,58 @@ fun ModalBottomSheetSample() {
             }
         }
     }
+}
+
+
+@Composable
+fun BottomSheetScaffoldSample() {
+
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(bottomSheetState =BottomSheetState(BottomSheetValue.Collapsed))
+    val scope = rememberCoroutineScope()
+    BottomSheetScaffold(
+        scaffoldState = bottomSheetScaffoldState,
+        sheetPeekHeight = 0.dp,
+        sheetGesturesEnabled = false,
+        sheetShape = RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp),
+        sheetContent = {
+            Box(modifier = Modifier.fillMaxWidth().height(300.dp)){
+                LazyColumn {
+                    items(50) {
+                        ListItem(
+                            text = { Text("Item $it") },
+                            icon = {
+                                Icon(
+                                    Icons.Default.Favorite,
+                                    contentDescription = "Localized description"
+                                )
+                            }
+                        )
+                    }
+                }
+            }
+
+    }) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Rest of the UI")
+            Spacer(Modifier.height(20.dp))
+            SuperButton(onClick = { scope.launch {
+                if(bottomSheetScaffoldState.bottomSheetState.isCollapsed){
+                    bottomSheetScaffoldState.bottomSheetState.expand()
+                }else{
+                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                }
+            }
+            }) {
+                Text("Click to show sheet")
+            }
+        }
+    }
+
 }
 
 

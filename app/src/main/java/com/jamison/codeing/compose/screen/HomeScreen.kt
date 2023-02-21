@@ -94,8 +94,7 @@ fun HomeScreen(navController: NavHostController) {
         HorizontalPager(
             count = items.size,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(innerPadding),
+                .fillMaxWidth(),
             state = pagerState,
             userScrollEnabled = false
         ) { page ->

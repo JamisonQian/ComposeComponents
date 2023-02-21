@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalPagerApi::class)
+@file:OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 
 package com.jamison.codeing.compose.screen.widget
 
@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -14,11 +15,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -60,54 +66,68 @@ fun InstagramScreen(navController: NavController) {
         TabItem(R.drawable.ic_igtv, "IGTV"),
         TabItem(R.drawable.ic_mention, "Mention")
     )
-    Scaffold(
-        topBar = {
-            AppTopBar(
-                title = {
-                    Text(text = "Instagram UI", color = Color.White, fontSize = 18.sp)
-                },
-                navigationIcon = {
-                    IconButton(onClick = {
-                        navController.popBackStack()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
-                },
-                backgroundColor = StatusBar
-            )
+    val pagerState = rememberPagerState()
 
-        }
-    ) {
-
-        val nestedScrollViewState = rememberNestedScrollViewState()
-        val pagerState = rememberPagerState()
-        NestedStickScrollView(
-            state = nestedScrollViewState,
-            modifier = Modifier
-                .padding(it),
-            header = {
-                //这里的布局必须支持滑动
-                ProfileSection(modifier = Modifier.verticalScroll(rememberScrollState()))
+    Column() {
+        AppTopBar(
+            title = {
+                Text(text = "Instagram UI", color = Color.White, fontSize = 18.sp)
             },
-            content = {
-                Column {
-                    TabView(tabs = tabs,pagerState)
-                    HorizontalPager(count = tabs.size, state = pagerState) {page->
+            navigationIcon = {
+                IconButton(onClick = {
+                    navController.popBackStack()
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                }
+            },
+            backgroundColor = StatusBar,
+        )
+        BoxWithConstraints {
+            val screenHeight = maxHeight
+            val scrollState = rememberScrollState()
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
+            ) {
+                ProfileSection()
+                Column(modifier = Modifier.height(screenHeight)) {
+                    TabView(tabs = tabs, pagerState)
+                    HorizontalPager(
+                        count = tabs.size, state = pagerState, modifier = Modifier
+                            .fillMaxHeight()
+                            .nestedScroll(
+                                remember {
+                                    object : NestedScrollConnection {
+                                        override fun onPreScroll(
+                                            available: Offset,
+                                            source: NestedScrollSource
+                                        ): Offset {
+                                            return if (available.y > 0) Offset.Zero else Offset(
+                                                x = 0f,
+                                                y = -scrollState.dispatchRawDelta(-available.y)
+                                            )
+                                        }
+                                    }
+                                })
+                    ) { page ->
                         ListDataContent(size = 50, title = tabs[page].title)
                     }
                 }
             }
-        )
+        }
     }
+
+
 }
 
 
 @Composable
-fun TabView(tabs: List<TabItem>,pagerState: PagerState) {
+fun TabView(tabs: List<TabItem>, pagerState: PagerState) {
     val inactiveColor = Gray500
     val activeColor = Blue500
 
@@ -128,7 +148,7 @@ fun TabView(tabs: List<TabItem>,pagerState: PagerState) {
         },
         indicator = { tabPositions ->
             TabRowDefaults.Indicator(
-                modifier = Modifier.pagerTabIndicatorOffset(pagerState,tabPositions),
+                modifier = Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
                 color = activeColor
 
             )
@@ -160,8 +180,10 @@ fun TabView(tabs: List<TabItem>,pagerState: PagerState) {
 private fun ProfileSection(modifier: Modifier = Modifier) {
     val viewModel: ImagesViewModel = viewModel()
     Surface(color = Color.White) {
-        Column(modifier = modifier
-            .fillMaxWidth()) {
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+        ) {
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 modifier = Modifier
@@ -312,8 +334,13 @@ private fun ProfileDescription(
 }
 
 @Composable
-private fun ListDataContent(size: Int, title: String,modifier: Modifier=Modifier) {
-    LazyColumn(modifier = modifier.fillMaxSize()) {
+private fun ListDataContent(size: Int, title: String) {
+    val listState = rememberLazyListState()
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize(),
+        state = listState
+    ) {
         items(size) { index ->
             Text(
                 text = "$title Data Item: $index",

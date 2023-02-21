@@ -78,8 +78,8 @@ fun AppNavGraph() {
         composable(Routers.INSTAGRAM_ROUTE){
             InstagramScreen(navController = controller)
         }
-        composable(Routers.SCROLL_BEHAVIOR_TOP_BAR_ROUTE){
-            ScrollBehaviorTopBar(navController = controller)
+        composable(Routers.DIALOG_ROUTE){
+            DialogScreen(navController = controller)
         }
     }
 }
